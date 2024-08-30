@@ -1,10 +1,15 @@
 
 <launch>
+    <!-- Parámetro para el nombre del vehículo -->
+    <arg name="veh" default="$(env VEHICLE_NAME)" />
 
-  <group ns="$(arg veh)">  
-    <node pkg="lane_follow" type="lane_follow.py" name="lane_follow_node" output="screen"/> 
-    <!-- <node pkg="my_package" type="my_subscriber_node.py" name="my_subscriber_node"  output="screen"/> -->
+    <!-- Nodo de detección de AprilTags -->
+    <node pkg="apriltag" type="apriltag_node.py" name="apriltag_node" output="screen">
+        <param name="veh" value="$(arg veh)" />
+    </node>
 
-  </group>
-
+    <!-- Nodo de seguimiento de línea -->
+     <group ns="$(arg veh)">  
+        <node pkg="lane_follow" type="lane_follow.py" name="lane_follow_node" output="screen"/> 
+    </group>
 </launch>
